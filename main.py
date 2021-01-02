@@ -1,4 +1,4 @@
-import modules.vigenere_cipher as enc
+from modules.vigenere_chiper import VigenereChiper
 
 
 def main():
@@ -6,14 +6,14 @@ def main():
     keyword = str(input("enter your keyword: ")).upper()
 
     # instantiating
-    encrypt = enc.VigenereChiper(text, keyword)
+    encrypt = VigenereChiper()
 
     # encryptor
-    encrypted_text = encrypt.encryptor()
+    encrypted_text = encrypt.encryptor(text, keyword)
     print(f"encrypted text: {encrypted_text}")
 
     # decryptor
-    decrypted_text = encrypt.decryptor(encrypted_text)
+    decrypted_text = encrypt.decryptor(encrypted_text, keyword)
     print(f"decrypted text: {decrypted_text}")
 
 
