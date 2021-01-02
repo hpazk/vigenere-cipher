@@ -5,11 +5,16 @@ def main():
     text = str(input("enter your text: ")).upper()
     keyword = str(input("enter your keyword: ")).upper()
 
+    # instantiating
     encrypt = enc.VigenereChiper(text, keyword)
 
-    key_word = encrypt.key_generator()
+    # encryptor
+    encrypted_text = encrypt.encryptor()
+    print(f"encrypted text: {encrypted_text}")
 
-    print(key_word)
+    # decryptor
+    decrypted_text = encrypt.decryptor(encrypted_text)
+    print(f"decrypted text: {decrypted_text}")
 
 
 if __name__ == "__main__":
