@@ -4,58 +4,73 @@ import os
 
 from vigenere_chiper import VigenereChiper
 
+
+class ChatServer:
+    def __init__(self, host, port):
+        self.HOST = host
+        self.PORT = port
+        self._clients = []
+        self._nicknames = []
+
+        self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    def run_server(self):
+        self.server.bind((self.HOST, self.PORT))
+        self.server.listen()
+
+        self._msg_receiver()
+        # return server
+
+    def _broadcaster(self, msg):
+        vc = VigenereChiper()
+        enc = vc.encrypt(str(msg.decode('utf-8')), os.environ.get('VC_KEY'))
+
+        for client in self._clients:
+            client.send(enc.encode('utf-8'))
+
+    def _msg_handler(self, client):
+        while True:
+            try:
+                msg = client.recv(1024)
+                self._broadcaster(msg)
+            except:
+                index = self._clients.index(client)
+                self._clients.remove(client)
+                client.close()
+
+                nickname = self._nicknames[index]
+                self._broadcaster('{} left!'.format(nickname).encode('utf-8'))
+                self._nicknames.remove(nickname)
+                break
+
+    def _msg_receiver(self):
+        while True:
+            # server = self._server()
+
+            client, address = self.server.accept()
+            print("Connected with {}".format(str(address)))
+            client.send('NICKNAME'.encode('utf-8'))
+
+            nickname = client.recv(1024).decode('utf-8')
+            self._nicknames.append(nickname)
+
+            self._clients.append(client)
+            print("Nickname is {}".format(nickname))
+            self._broadcaster("{} joined! ".format(nickname).encode('utf-8'))
+
+            # client.send('Connected to server!\n'.encode('utf-8'))
+            thread = threading.Thread(
+                target=self._msg_handler,
+                args=(client,)
+            )
+
+            thread.start()
+
+
 vc = VigenereChiper()
 
 host = '127.0.0.1'
-port = 7976
+port = 1234
 
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind((host, port))  # binding host and port to socket
-server.listen()
-
-clients = []
-nicknames = []
-
-
-def broadcast(message):
-    enc = vc.encrypt(str(message.decode('utf-8')), os.environ.get('VC_KEY'))
-
-    for client in clients:
-        client.send(enc.encode('utf-8'))
-        # client.send(message)
-
-
-def handle(client):
-    while True:
-        try:
-            message = client.recv(1024)
-            broadcast(message)
-        except:
-            index = clients.index(client)
-            clients.remove(client)
-            client.close()
-            nickname = nicknames[index]
-            broadcast('{} left!'.format(nickname).encode('utf-8'))
-            nicknames.remove(nickname)
-            break
-
-
-def receive():
-    while True:
-        client, address = server.accept()
-        print("Connected with {}".format(str(address)))
-        client.send('NICKNAME'.encode('utf-8'))
-
-        nickname = client.recv(1024).decode('utf-8')
-        nicknames.append(nickname)
-
-        clients.append(client)
-        print("Nickname is {}".format(nickname))
-        broadcast("{} joined! ".format(nickname).encode('utf-8'))
-
-        # client.send('Connected to server!\n'.encode('utf-8'))
-        thread = threading.Thread(target=handle, args=(client,))
-        thread.start()
-
-
-receive()
+room_server = ChatServer(host, port)
+room_server.run_server()

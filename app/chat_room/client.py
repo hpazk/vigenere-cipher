@@ -13,7 +13,7 @@ key = getpass.getpass(
 
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client.connect(('127.0.0.1', 7976))  # connecting client to server
+client.connect(('127.0.0.1', 1234))
 
 
 def receive():
@@ -41,8 +41,7 @@ def write():
         client.send(message.encode('utf-8'))
 
 
-receive_thread = threading.Thread(
-    target=receive)
+receive_thread = threading.Thread(target=receive)
 receive_thread.start()
 write_thread = threading.Thread(target=write)
 write_thread.start()
