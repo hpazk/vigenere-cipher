@@ -1,16 +1,13 @@
 class VigenereChiper:
     def __init__(self):
-        self.text = ''
-        self.keyword = ''
-
         self.__alphabets = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
     def key_generator(self, text, keyword):
         key = []
         key_count = 0
         for i in range(0, len(text)):
-            if text[i] == " ":
-                key.append(" ")
+            if text[i] == ' ':
+                key.append(' ')
             else:
                 x = key_count % len(keyword)
                 key.append(keyword[x])
@@ -27,11 +24,11 @@ class VigenereChiper:
         key = self.key_generator(text, keyword)
         alphabets = self.get_alphabets()
 
-        encrypted = ""
+        encrypted = ''
 
         for i in range(0, len(text)):
-            if text[i] == " ":
-                encrypted += " "
+            if text[i] == ' ':
+                encrypted += ' '
             else:
                 value = (alphabets.find(
                     text[i]) + alphabets.find(key[i])) % 26
@@ -43,11 +40,11 @@ class VigenereChiper:
         key = self.key_generator(encrypted_text, keyword)
         alphabets = self.get_alphabets()
 
-        decrypted = ""
+        decrypted = ''
 
         for i in range(0, len(encrypted_text)):
-            if encrypted_text[i] == " ":
-                decrypted += " "
+            if encrypted_text[i] == ' ':
+                decrypted += ' '
             else:
                 value = (alphabets.find(
                     encrypted_text[i]) - alphabets.find(key[i])) % 26
