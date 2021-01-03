@@ -3,7 +3,7 @@ import threading
 import os
 
 import getpass
-from vigenere_chiper import *
+from vigenere_chiper import encrypt, decrypt
 
 nickname = input('username: ')
 key = getpass.getpass(

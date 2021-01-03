@@ -2,7 +2,7 @@ import socket
 import threading  # Libraries import
 import os
 
-from vigenere_chiper import *
+from vigenere_chiper import encrypt, decrypt
 
 host = '127.0.0.1'
 port = 7976
