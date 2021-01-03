@@ -2,7 +2,9 @@ import socket
 import threading  # Libraries import
 import os
 
-from vigenere_chiper import encrypt, decrypt
+from vigenere_chiper import VigenereChiper
+
+vc = VigenereChiper()
 
 host = '127.0.0.1'
 port = 7976
@@ -16,7 +18,7 @@ nicknames = []
 
 
 def broadcast(message):
-    enc = encrypt(str(message.decode('utf-8')), os.environ.get('VC_KEY'))
+    enc = vc.encrypt(str(message.decode('utf-8')), os.environ.get('VC_KEY'))
 
     for client in clients:
         client.send(enc.encode('utf-8'))

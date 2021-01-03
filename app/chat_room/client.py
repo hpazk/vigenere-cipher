@@ -3,7 +3,9 @@ import threading
 import os
 
 import getpass
-from vigenere_chiper import encrypt, decrypt
+from vigenere_chiper import VigenereChiper
+
+vc = VigenereChiper()
 
 nickname = input('username: ')
 key = getpass.getpass(
@@ -22,7 +24,7 @@ def receive():
             if message == 'NICKNAME':
                 client.send(nickname.encode('utf-8'))
             else:
-                dec = decrypt(message, key)
+                dec = vc.decrypt(message, key)
                 if key != os.environ.get('VC_KEY'):
                     print('')
                 print(dec)
