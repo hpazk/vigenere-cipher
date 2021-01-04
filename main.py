@@ -8,7 +8,7 @@ def main():
     key = getpass('enter the key: ')
 
     room_server = ChatServer(port, key)
-    room_server.run_server()
+    room_server.run()
 
 
 if __name__ == "__main__":

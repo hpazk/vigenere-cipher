@@ -1,8 +1,7 @@
 import socket
-import threading  # Libraries import
-import os
+import threading
 
-from modules.vigenere_chiper import VigenereChiper
+from .modules.vigenere_chiper import VigenereChiper
 
 
 class ChatServer:
@@ -16,12 +15,11 @@ class ChatServer:
 
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    def run_server(self):
+    def run(self):
         self.server.bind((self.host, self.port))
         self.server.listen()
 
         self._msg_receiver()
-        # return server
 
     def _broadcaster(self, msg):
         vc = VigenereChiper()

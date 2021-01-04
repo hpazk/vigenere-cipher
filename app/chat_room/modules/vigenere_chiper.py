@@ -2,6 +2,7 @@
 
 class VigenereChiper:
     def __init__(self):
+        # ascii 32 => space - 127 = DEL
         self.__chars = [c for c in (chr(i) for i in range(32, 127))]
 
     def __get_chars(self):
@@ -26,18 +27,18 @@ class VigenereChiper:
         key = self._generate_key(text, keyword)
         result = ''
 
-        CHARS = self.__get_chars()
+        chars = self.__get_chars()
 
         for i, c in enumerate(text):
-            if c not in CHARS:
+            if c not in chars:
                 res += c
             else:
-                text_index = CHARS.index(c)
-                key_index = CHARS.index(key[i % len(key)])
+                text_index = chars.index(c)
+                key_index = chars.index(key[i % len(key)])
 
                 if decrypt:
                     key_index *= -1
-                result += CHARS[(text_index + key_index) % len(CHARS)]
+                result += chars[(text_index + key_index) % len(chars)]
 
         return result
 
@@ -50,21 +51,21 @@ class VigenereChiper:
         return self.__chiper(text, key, True)
 
 
-# CHARS = [c for c in (chr(i) for i in range(32, 127))]
+# chars = [c for c in (chr(i) for i in range(32, 127))]
 
 
 # def transform(text, key, want_decrypted=False):
 
 #     res = ''
 #     for i, c in enumerate(text):
-#         if c not in CHARS:
+#         if c not in chars:
 #             res += c
 #         else:
-#             text_index = CHARS.index(c)
-#             key_index = CHARS.index(key[i % len(key)])
+#             text_index = chars.index(c)
+#             key_index = chars.index(key[i % len(key)])
 #             if want_decrypted:
 #                 key_index *= -1
-#             res += CHARS[(text_index + key_index) % len(CHARS)]
+#             res += chars[(text_index + key_index) % len(chars)]
 #     return res
 
 

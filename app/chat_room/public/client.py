@@ -1,8 +1,11 @@
-from modules.vigenere_chiper import VigenereChiper
-import getpass
 import socket
-import os
 import threading
+import os
+
+import getpass
+from app.chat_room.modules.vigenere_chiper import VigenereChiper
+
+from modules.vigenere_chiper import VigenereChiper
 
 vc = VigenereChiper()
 
