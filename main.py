@@ -1,20 +1,14 @@
-from modules.vigenere_chiper import VigenereChiper
+from app.chat_room.server import ChatServer
+from getpass import getpass
 
 
 def main():
-    text = str(input("enter your text: ")).upper()
-    keyword = str(input("enter your keyword: ")).upper()
 
-    # instantiating
-    encrypt = VigenereChiper()
+    port = int(input('enter port address: '))
+    key = getpass('enter the key: ')
 
-    # encryptor
-    encrypted_text = encrypt.encryptor(text, keyword)
-    print(f"encrypted text: {encrypted_text}")
-
-    # decryptor
-    decrypted_text = encrypt.decryptor(encrypted_text, keyword)
-    print(f"decrypted text: {decrypted_text}")
+    room_server = ChatServer(port, key)
+    room_server.run_server()
 
 
 if __name__ == "__main__":

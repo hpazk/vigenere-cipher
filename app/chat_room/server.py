@@ -2,20 +2,22 @@ import socket
 import threading  # Libraries import
 import os
 
-from vigenere_chiper import VigenereChiper
+from modules.vigenere_chiper import VigenereChiper
 
 
 class ChatServer:
-    def __init__(self, host, port):
-        self.HOST = host
-        self.PORT = port
+    def __init__(self, port, key):
+        self.host = '127.0.0.1'
+        self.port = port
+        self.key = key
+
         self._clients = []
         self._nicknames = []
 
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def run_server(self):
-        self.server.bind((self.HOST, self.PORT))
+        self.server.bind((self.host, self.port))
         self.server.listen()
 
         self._msg_receiver()
@@ -23,7 +25,7 @@ class ChatServer:
 
     def _broadcaster(self, msg):
         vc = VigenereChiper()
-        enc = vc.encrypt(str(msg.decode('utf-8')), os.environ.get('VC_KEY'))
+        enc = vc.encrypt(str(msg.decode('utf-8')), self.key)
 
         for client in self._clients:
             client.send(enc.encode('utf-8'))
@@ -65,12 +67,3 @@ class ChatServer:
             )
 
             thread.start()
-
-
-vc = VigenereChiper()
-
-host = '127.0.0.1'
-port = 1234
-
-room_server = ChatServer(host, port)
-room_server.run_server()
