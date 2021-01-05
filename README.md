@@ -25,6 +25,9 @@ K = Key
 Berikut gambaran enkripsi berdasarkan tabula recta:
 ![Tabula Recta](doc/tabula%20recta.png)
 
+Demo:\
+![Test](doc/test.png)
+
 P1 = I\
 K1 = D\
 titik potong pada tabel kolom dan baris tersebut di gunakan sebagai hasil enkripsinya

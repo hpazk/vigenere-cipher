@@ -31,7 +31,7 @@ class VigenereChiper:
 
         for i, c in enumerate(text):
             if c not in chars:
-                res += c
+                result += c
             else:
                 text_index = chars.index(c)
                 key_index = chars.index(key[i % len(key)])
